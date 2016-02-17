@@ -1,0 +1,6 @@
+* show dialog for user account address and pkey
+* get Wallet address from NameReg and show it with its balance
+* show list of Wallet owners
+* allow user to send a new tx
+* show list of unconfirmed txs
+* allow user to confirm a tx
