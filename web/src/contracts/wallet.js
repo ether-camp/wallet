@@ -1,3 +1,9 @@
+var async = require('async');
+var _ = require('lodash');
+var SolidityFunction = require('web3/lib/web3/function');
+var ethTx = require('ethereumjs-tx');
+var util = require('../util');
+
 var abi = [
   {
     "constant": true,
@@ -163,6 +169,39 @@ var abi = [
   }
 ];
 
-module.exports.create = function(web3, address) {
-  return web3.eth.contract(abi).at(address);
+var wallet = {
+  init: function(app, address) {
+    this.app = app;
+    this.address = address;
+    this.contract = app.web3.eth.contract(abi).at(address);
+    return this;
+  },
+  execute: function(to, value, cbSent, cbMined) {
+    var func = new SolidityFunction(this.app.web3, _.find(abi, { name: 'execute' }), '');
+    var data = func.toPayload([to, value, '']).data;
+      
+    async.parallel({
+      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, this.app.account.address),
+      gasPrice: this.app.web3.eth.getGasPrice.bind(this.app.web3.eth)
+    }, (function(err, results) {
+      if (err) return cbSent(err);
+      
+      var tx = new ethTx({
+        to: this.address,
+        nonce: results.nonce,
+        gasLimit: '0x100000',
+        gasPrice: '0x' + results.gasPrice.toString(16),
+        data: data
+      });
+      tx.sign(new Buffer(this.app.account.pkey.substr(2), 'hex'));
+      
+      this.app.web3.eth.sendRawTransaction('0x' + tx.serialize().toString('hex'), (function(err, txHash) {
+        if (err) return cbSent(err);
+        cbSent(null, txHash);
+        util.waitForReceipt(this.app.web3, txHash, cbMined);
+      }).bind(this));
+    }).bind(this));
+  }
 };
+
+module.exports = wallet;

@@ -13,8 +13,22 @@ function toAddress(pkey) {
   return '0x' + ethUtil.privateToAddress(new Buffer(pkey.substr(2), 'hex')).toString('hex');
 }
 
+function waitForReceipt(web3, txHash, cb) {
+  var blockFilter = web3.eth.filter('latest');
+  blockFilter.watch(function() {
+    web3.eth.getTransactionReceipt(txHash, function(err, receipt) {
+      if (err) return cb(err);
+      if (receipt) {
+        blockFilter.stopWatching();
+        cb(null, receipt);
+      }
+    });
+  });
+}
+
 module.exports = {
   isPkey: isPkey,
   sha3: sha3,
-  toAddress: toAddress
+  toAddress: toAddress,
+  waitForReceipt: waitForReceipt
 };

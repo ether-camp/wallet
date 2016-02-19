@@ -11,7 +11,7 @@ var TopUpDialog = require('./ui/top-up-dialog');
 var HeaderWidget = require('./ui/header');
 var WalletWidget = require('./ui/wallet');
 
-var sandboxId = 'afd7746b16';
+var sandboxId = '2c3e05edf6';
 var url = 'http://alex2.on.my.ether.camp:8555/sandbox/' + sandboxId;
 //var url = 'http://peer-1.ether.camp:8082';
 //var nameRegAddress = '0x084f6a99003dae6d3906664fdbf43dd09930d0e3';
@@ -34,7 +34,7 @@ $(function() {
   app.on('accountSelected', function() {
     app.nameReg.addressOf('Wallet', function(err, address) {
       if (err) return console.error(err);
-      app.wallet = Wallet.create(app.web3, address);
+      app.wallet = Object.create(Wallet).init(app, address);
       app.emit('walletLoaded');
     });
   });

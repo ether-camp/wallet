@@ -1,13 +1,21 @@
 var dialog = {
   init: function(app, $el) {
+    this.app = app;
     this.$el = $el;
-    $el.find('[data-name=sendTx]').click(function() {
-      var to = $el.find('input[name=to]').val();
-      var value = $el.find('input[name=value').val();
-      app.wallet.execute(to, value, '', function(err, txHash) {
-        if (err) return console.error(err);
-      });
-    });
+    $el.find('[data-name=sendTx]').click((function() {
+      this.app.wallet.execute(
+        this.$el.find('input[name=to]').val(),
+        parseInt(this.$el.find('input[name=value]').val(), 10),
+        (function(err) {
+          if (err) console.error(err);
+          else this.$el.modal('hide');
+        }).bind(this),
+        (function(err) {
+          if (err) console.error(err);
+          else this.app.emit('walletUpdated');
+        }).bind(this)
+      );
+    }).bind(this));
     return this;
   },
   show: function() {

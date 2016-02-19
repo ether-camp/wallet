@@ -30,13 +30,32 @@
         
         <div id="wallet" class="container">
             <div class="row">
-                Wallet: <span id="walletAddress">...</span>, balance: <span id="walletBalance">...</span> wei
+                <h4>Wallet:</h4> <span id="walletAddress">...</span>, balance: <span id="walletBalance">...</span> wei
                 <button id="topUpBtn" type="button" class="btn btn-primary" disabled="disabled">Top Up</button>
                 <button id="sendTxBtn" type="button" class="btn btn-primary" disabled="disabled">Send Tx</button>
             </div>
             <div class="row">
-                <div>Owners:</div>
+                <h4>Owners:</h4>
                 <ul id="walletOwners"></ul>
+            </div>
+            <div class="row">
+                <h4>Transactions to Confirm:</h4>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Sender</th>
+                            <th>Sum (wei)</th>
+                            <th>To</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="txsToConfirm"></tbody>
+                </table>
+            </div>
+            <div class="row">
+                <h4>Events:</h4>
+                <ul id="walletEvents"></ul>
             </div>
         </div>
 

@@ -9,16 +9,29 @@ var wallet = {
     this.$topUpBtn = $el.find('#topUpBtn');
     this.$sendTxBtn = $el.find('#sendTxBtn');
     this.$owners = $el.find('#walletOwners');
+    this.$events = $el.find('#walletEvents');
 
     this.$topUpBtn.click(topUpDialog.show.bind(topUpDialog));
     this.$sendTxBtn.click(sendTxDialog.show.bind(sendTxDialog));
 
     if (app.account) this.update();
-    else app.once('walletLoaded', this.render.bind(this));
+    else app.once('walletLoaded', this.load.bind(this));
     
-    app.on('walletUpdate', this.update.bind(this));
+    app.on('walletUpdated', this.update.bind(this));
     
     return this;
+  },
+  load: function() {
+    this.app.wallet.contract.SingleTransact((function(err, details) {
+      if (err) return console.error(err);
+      var args = details.args;
+      this.$events.append(
+        '<li>Single tx from <mark class="text-danger">' + args.owner + '</mark> ' + 
+        'to <mark class="text-danger">' + args.to + '</mark>, ' +
+        'sum <mark class="text-danger">' + args.value.toString() + '</mark> wei;</li>'
+      );
+    }).bind(this));
+    this.render();
   },
   render: function() {
     this.$address.text(this.app.wallet.address);
@@ -27,7 +40,7 @@ var wallet = {
     this.$sendTxBtn.removeAttr('disabled');
     
     this.$owners.empty();
-    this.app.wallet.getOwners((function(err, owners) {
+    this.app.wallet.contract.getOwners((function(err, owners) {
       if (err) return console.error(err);
       _(owners)
         .filter(function(address) {

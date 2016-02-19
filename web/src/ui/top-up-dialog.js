@@ -1,5 +1,6 @@
 var async = require('async');
 var ethTx = require('ethereumjs-tx');
+var util = require('../util');
 
 var dialog = {
   init: function(app, $el) {
@@ -35,16 +36,10 @@ var dialog = {
         
         this.$el.modal('hide');
         
-        var blockFilter = this.app.web3.eth.filter('latest');
-        blockFilter.watch((function() {
-          this.app.web3.eth.getTransactionReceipt(txHash, (function(err, receipt) {
-            if (err) return console.error(err);
-            if (receipt) {
-              blockFilter.stopWatching();
-              this.app.emit('accountUpdated');
-              this.app.emit('walletUpdate');
-            }
-          }).bind(this));
+        util.waitForReceipt(this.app.web3, txHash, (function(err, receipt) {
+          if (err) return console.error(err);
+          this.app.emit('accountUpdated');
+          this.app.emit('walletUpdated');
         }).bind(this));
       }).bind(this));
     }).bind(this));
