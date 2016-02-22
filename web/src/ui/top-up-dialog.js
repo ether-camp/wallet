@@ -8,12 +8,21 @@ var dialog = {
     this.$el = $el;
     this.$value = $el.find('input[name=value]');
     $el.find('[data-name=topUp]').click(this.topUp.bind(this));
+    $el.find('form').submit(this.topUp.bind(this));
+    
+    $el.on('shown.bs.modal', (function() {
+      this.$value.focus();
+    }).bind(this));
+    
     return this;
   },
   show: function() {
     this.$el.modal('show');
+    this.$value.val('');
   },
-  topUp: function() {
+  topUp: function(e) {
+    e.preventDefault();
+    
     var value = this.$value.val();
 
     async.parallel({

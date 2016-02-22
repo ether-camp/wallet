@@ -11,7 +11,7 @@ var TopUpDialog = require('./ui/top-up-dialog');
 var HeaderWidget = require('./ui/header');
 var WalletWidget = require('./ui/wallet');
 
-var sandboxId = '2c3e05edf6';
+var sandboxId = '5ffd2dad1b';
 var url = 'http://alex2.on.my.ether.camp:8555/sandbox/' + sandboxId;
 //var url = 'http://peer-1.ether.camp:8082';
 //var nameRegAddress = '0x084f6a99003dae6d3906664fdbf43dd09930d0e3';
