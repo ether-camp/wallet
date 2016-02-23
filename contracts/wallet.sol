@@ -1,12 +1,3 @@
-/*
-
-["0xdedb49385ad5b94a16f236a6890cf9e0b1e30392", 
-"0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826", 
-"0x5e0d1ad9d5849c1a5c204dfb58a1e4f390a24337"]
-
-*/
-
-
 //sol Wallet
 // Multi-sig, daily-limited account proxy/wallet.
 // inheritable "property" contract that enables methods to be protected by requiring the acquiescence of either a
