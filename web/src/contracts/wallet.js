@@ -201,6 +201,32 @@ var wallet = {
         util.waitForReceipt(this.app.web3, txHash, cbMined);
       }).bind(this));
     }).bind(this));
+  },
+  confirm: function(id, cbSent, cbMined) {
+    var func = new SolidityFunction(this.app.web3, _.find(abi, { name: 'confirm' }), '');
+    var data = func.toPayload([id]).data;
+      
+    async.parallel({
+      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, this.app.account.address),
+      gasPrice: this.app.web3.eth.getGasPrice.bind(this.app.web3.eth)
+    }, (function(err, results) {
+      if (err) return cbSent(err);
+      
+      var tx = new ethTx({
+        to: this.address,
+        nonce: results.nonce,
+        gasLimit: '0x100000',
+        gasPrice: '0x' + results.gasPrice.toString(16),
+        data: data
+      });
+      tx.sign(new Buffer(this.app.account.pkey.substr(2), 'hex'));
+      
+      this.app.web3.eth.sendRawTransaction('0x' + tx.serialize().toString('hex'), (function(err, txHash) {
+        if (err) return cbSent(err);
+        cbSent(null, txHash);
+        util.waitForReceipt(this.app.web3, txHash, cbMined);
+      }).bind(this));
+    }).bind(this));
   }
 };
 

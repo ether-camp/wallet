@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var util = require('../util');
 
 var wallet = {
   init: function(app, $el, topUpDialog, sendTxDialog) {
@@ -9,10 +10,12 @@ var wallet = {
     this.$topUpBtn = $el.find('#topUpBtn');
     this.$sendTxBtn = $el.find('#sendTxBtn');
     this.$owners = $el.find('#walletOwners');
+    this.$txsToConfirm = $el.find('#txsToConfirm');
     this.$events = $el.find('#walletEvents');
 
     this.$topUpBtn.click(topUpDialog.show.bind(topUpDialog));
     this.$sendTxBtn.click(sendTxDialog.show.bind(sendTxDialog));
+    this.$txsToConfirm.click(this.confirm.bind(this));
 
     if (app.account) this.update();
     else app.once('walletLoaded', this.load.bind(this));
@@ -27,6 +30,30 @@ var wallet = {
       var args = details.args;
       this.$events.append(
         '<li>Single tx from <mark class="text-danger">' + args.owner + '</mark> ' + 
+        'to <mark class="text-danger">' + args.to + '</mark>, ' +
+        'sum <mark class="text-danger">' + args.value.toString() + '</mark> wei;</li>'
+      );
+    }).bind(this));
+    this.app.wallet.contract.ConfirmationNeeded((function(err, details) {
+      if (err) return console.error(err);
+      var args = details.args;
+      this.$txsToConfirm.append(
+        '<tr>' +
+        '<td data-name="id">' + util.fold(args.operation) + '</td>' +
+        '<td>' + args.initiator + '</td>' +
+        '<td>' + args.to + '</td>' +
+        '<td>' + args.value.toString() + '</td>' +
+        '<td><button>Confirm</button></td>' +
+        '</tr>'
+      );
+    }).bind(this));
+    this.app.wallet.contract.MultiTransact((function(err, details) {
+      if (err) return console.error(err);
+      var args = details.args;
+      this.$txsToConfirm.find('td:contains(' + args.operation + ')').parent().remove();
+      this.app.emit('walletUpdated');
+      this.$events.append(
+        '<li>Multisigned tx from <mark class="text-danger">' + args.owner + '</mark> ' + 
         'to <mark class="text-danger">' + args.to + '</mark>, ' +
         'sum <mark class="text-danger">' + args.value.toString() + '</mark> wei;</li>'
       );
@@ -58,6 +85,14 @@ var wallet = {
       if (err) return console.error(err);
       this.$balance.text(balance.toString());
     }).bind(this));
+  },
+  confirm: function(e) {
+    var $row = $(e.target).parent().parent();
+    this.app.wallet.confirm(
+      $row.find('[data-name=id]').text(),
+      function(err) { if (err) console.error(err); },
+      function(err) { if (err) console.error(err); }
+    );
   }
 };
 

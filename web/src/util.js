@@ -26,9 +26,14 @@ function waitForReceipt(web3, txHash, cb) {
   });
 }
 
+function fold(val) {
+  return val.substr(0, 6) + '...' + val.substr(-4);
+}
+
 module.exports = {
   isPkey: isPkey,
   sha3: sha3,
   toAddress: toAddress,
-  waitForReceipt: waitForReceipt
+  waitForReceipt: waitForReceipt,
+  fold: fold
 };
