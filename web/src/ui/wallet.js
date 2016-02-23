@@ -39,7 +39,7 @@ var wallet = {
       var args = details.args;
       this.$txsToConfirm.append(
         '<tr>' +
-        '<td data-name="id">' + util.fold(args.operation) + '</td>' +
+        '<td data-name="id" data-id="' + args.operation + '">' + util.fold(args.operation) + '</td>' +
         '<td>' + args.initiator + '</td>' +
         '<td>' + args.to + '</td>' +
         '<td>' + args.value.toString() + '</td>' +
@@ -50,7 +50,7 @@ var wallet = {
     this.app.wallet.contract.MultiTransact((function(err, details) {
       if (err) return console.error(err);
       var args = details.args;
-      this.$txsToConfirm.find('td:contains(' + args.operation + ')').parent().remove();
+      this.$txsToConfirm.find('td[data-id=' + args.operation + ']').parent().remove();
       this.app.emit('walletUpdated');
       this.$events.append(
         '<li>Multisigned tx from <mark class="text-danger">' + args.owner + '</mark> ' + 
@@ -89,7 +89,7 @@ var wallet = {
   confirm: function(e) {
     var $row = $(e.target).parent().parent();
     this.app.wallet.confirm(
-      $row.find('[data-name=id]').text(),
+      $row.find('[data-name=id]').attr('data-id'),
       function(err) { if (err) console.error(err); },
       function(err) { if (err) console.error(err); }
     );

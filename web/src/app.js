@@ -1,6 +1,4 @@
 var EventEmitter = require('events');
-var ethTx = require('ethereumjs-tx');
-var _ = require('lodash');
 var Web3 = require('web3');
 
 var NameReg = require('./contracts/name-reg');
@@ -11,7 +9,7 @@ var TopUpDialog = require('./ui/top-up-dialog');
 var HeaderWidget = require('./ui/header');
 var WalletWidget = require('./ui/wallet');
 
-var sandboxId = '3d2cab8c33';
+var sandboxId = '2c48eac18d';
 var url = 'http://alex2.on.my.ether.camp:8555/sandbox/' + sandboxId;
 //var url = 'http://peer-1.ether.camp:8082';
 //var nameRegAddress = '0x084f6a99003dae6d3906664fdbf43dd09930d0e3';
