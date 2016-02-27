@@ -9,7 +9,7 @@ Building:
 $ cd web
 $ npm install gulp-cli bower -g
 $ npm install
-$ bower install
+$ bower install --allow-root
 $ gulp
 ```
 
