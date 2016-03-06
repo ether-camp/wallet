@@ -1,5 +1,11 @@
 {
   "name": "wallet",
+  "version": "0.0.1",
+  "main": "app/app.js",
+  "scripts": {
+    "start": "node app/app.js",
+    "postinstall": "bower install && gulp"
+  },
   "dependencies": {
     "async": "^1.5.2",
     "crypto-js": "^3.1.6",
@@ -19,5 +25,8 @@
     "solidity-compiler": "git+https://github.com/ether-camp/solidity-compiler.git",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
+  },
+  "engines": {
+    "node": "0.12.7"
   }
 }
