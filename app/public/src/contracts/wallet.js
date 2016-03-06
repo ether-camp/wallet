@@ -176,12 +176,14 @@ var wallet = {
     this.contract = app.web3.eth.contract(abi).at(address);
     return this;
   },
-  execute: function(to, value, cbSent, cbMined) {
+  execute: function(to, value, pkey, cbSent, cbMined) {
     var func = new SolidityFunction(this.app.web3, _.find(abi, { name: 'execute' }), '');
     var data = func.toPayload([to, value, '']).data;
-      
+    
+    var address = util.toAddress(pkey);
+    
     async.parallel({
-      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, this.app.account.address),
+      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, address),
       gasPrice: this.app.web3.eth.getGasPrice.bind(this.app.web3.eth)
     }, (function(err, results) {
       if (err) return cbSent(err);
@@ -193,7 +195,7 @@ var wallet = {
         gasPrice: '0x' + results.gasPrice.toString(16),
         data: data
       });
-      tx.sign(new Buffer(this.app.account.pkey.substr(2), 'hex'));
+      tx.sign(new Buffer(pkey.substr(2), 'hex'));
       
       this.app.web3.eth.sendRawTransaction('0x' + tx.serialize().toString('hex'), (function(err, txHash) {
         if (err) return cbSent(err);
@@ -202,12 +204,14 @@ var wallet = {
       }).bind(this));
     }).bind(this));
   },
-  confirm: function(id, cbSent, cbMined) {
+  confirm: function(id, pkey, cbSent, cbMined) {
     var func = new SolidityFunction(this.app.web3, _.find(abi, { name: 'confirm' }), '');
     var data = func.toPayload([id]).data;
+    
+    var address = util.toAddress(pkey);
       
     async.parallel({
-      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, this.app.account.address),
+      nonce: this.app.web3.eth.getTransactionCount.bind(this.app.web3.eth, address),
       gasPrice: this.app.web3.eth.getGasPrice.bind(this.app.web3.eth)
     }, (function(err, results) {
       if (err) return cbSent(err);
@@ -219,7 +223,7 @@ var wallet = {
         gasPrice: '0x' + results.gasPrice.toString(16),
         data: data
       });
-      tx.sign(new Buffer(this.app.account.pkey.substr(2), 'hex'));
+      tx.sign(new Buffer(pkey.substr(2), 'hex'));
       
       this.app.web3.eth.sendRawTransaction('0x' + tx.serialize().toString('hex'), (function(err, txHash) {
         if (err) return cbSent(err);

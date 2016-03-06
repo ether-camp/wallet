@@ -2,7 +2,7 @@ var _ = require('lodash');
 var util = require('../util');
 
 var wallet = {
-  init: function(app, $el, topUpDialog, sendTxDialog) {
+  init: function(app, $el, topUpDialog, sendTxDialog, pkeyDialog) {
     this.app = app;
     
     this.$address = $el.find('#walletAddress');
@@ -15,7 +15,7 @@ var wallet = {
 
     this.$topUpBtn.click(topUpDialog.show.bind(topUpDialog));
     this.$sendTxBtn.click(sendTxDialog.show.bind(sendTxDialog));
-    this.$txsToConfirm.click(this.confirm.bind(this));
+    this.$txsToConfirm.click(this.confirm.bind(this, pkeyDialog));
 
     if (app.account) this.update();
     else app.once('walletLoaded', this.load.bind(this));
@@ -43,7 +43,7 @@ var wallet = {
         '<td>' + args.initiator + '</td>' +
         '<td>' + args.to + '</td>' +
         '<td>' + args.value.toString() + '</td>' +
-        '<td><button>Confirm</button></td>' +
+        '<td><button class="btn btn-success">Confirm</button></td>' +
         '</tr>'
       );
     }).bind(this));
@@ -86,13 +86,17 @@ var wallet = {
       this.$balance.text(balance.toString());
     }).bind(this));
   },
-  confirm: function(e) {
+  confirm: function(pkeyDialog, e) {
     var $row = $(e.target).parent().parent();
-    this.app.wallet.confirm(
-      $row.find('[data-name=id]').attr('data-id'),
-      function(err) { if (err) console.error(err); },
-      function(err) { if (err) console.error(err); }
-    );
+    
+    pkeyDialog.show((function(pkey) {
+      this.app.wallet.confirm(
+        $row.find('[data-name=id]').attr('data-id'),
+        pkey,
+        function(err) { if (err) console.error(err); },
+        function(err) { if (err) console.error(err); }
+      );
+    }).bind(this));
   }
 };
 

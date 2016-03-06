@@ -3,8 +3,8 @@ var browserify = require('browserify'),
   gulp = require('gulp'),
   mocha = require('gulp-mocha'),
   source = require('vinyl-source-stream'),
-  sourceFile = './web/src/app.js',
-  destFolder = './web/dist/',
+  sourceFile = './app/public/src/app.js',
+  destFolder = './app/public/dist/',
   destFile = 'app.js';
  
 gulp.task('browserify', function() {

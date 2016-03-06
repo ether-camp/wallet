@@ -1,7 +1,5 @@
 {
-  "contracts": "wallet/contracts",
-  
-  "test" : "wallet/test",
+  "contracts": "contracts",
   
   "transaction": {
     "gasLimit": 3141592,

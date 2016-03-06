@@ -1,0 +1,115 @@
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    
+    title Wallet
+    
+    link(href="lib/bootstrap/dist/css/bootstrap.min.css", rel="stylesheet")
+    
+    //
+      [if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]
+  body
+    nav#header.navbar.navbar-default
+      .container
+        .navbar-header
+          .navbar-brand(href="/") Wallet
+          
+    #wallet.container
+      .row
+        h4 Wallet:
+        span#walletAddress ...
+        |  , balance: 
+        span#walletBalance ...
+        |  wei 
+        button#topUpBtn.btn.btn-primary Top Up
+        | 
+        button#sendTxBtn.btn.btn-primary Send Tx
+      .row
+        h4 Owners:
+        ul#walletOwners
+      .row
+        h4 Transactions to Confirm:
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th Id
+              th Sender
+              th To
+              th Sum (wei)
+              th Actions
+          tbody#txsToConfirm
+      .row
+        h4 Events:
+        ul#walletEvents
+    
+    #sendTxDialog.modal.fade(tabindex="-1", role="dialog")
+      .modal-dialog
+        .modal-content
+          form.form-horizontal
+            .modal-header
+              button.close(data-dismiss="modal", aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4.modal-title Send Tx
+            .modal-body
+              .form-group
+                label.col-sm-4.control-label(for="to") To
+                .col-sm-8
+                  input.form-control(type="text", name="to")
+              .form-group
+                label.col-sm-4.control-label(for="value") Value
+                .col-sm-8
+                  input.form-control(type="text", name="value")
+              .form-group
+                label.col-sm-4.control-label(for="pkey") Private Key or Seed
+                .col-sm-8
+                  input.form-control(type="password", name="pkey")
+            .modal-footer
+              button.btn.btn-default(data-dismiss="modal") Close
+              button.btn.btn-primary(data-name="sendTx", type="submit") Send
+                
+    #topUpDialog.modal.fade(tabindex="-1", role="dialog")
+      .modal-dialog
+        .modal-content
+          form.form-horizontal
+            .modal-header
+              button.close(data-dismiss="modal", aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4.modal-title Top Up
+            .modal-body
+              .form-group
+                label.col-sm-4.control-label(for="value") Value
+                .col-sm-8
+                  input.form-control(type="text", name="value")
+              .form-group
+                label.col-sm-4.control-label(for="pkey") Private Key or Seed
+                .col-sm-8
+                  input.form-control(type="password", name="pkey")
+            .modal-footer
+              button.btn.btn-default(data-dismiss="modal") Close
+              button.btn.btn-primary(data-name="sendTx", type="submit") Send
+              
+    #pkeyDialog.modal.fade(tabindex="-1", role="dialog")
+      .modal-dialog
+        .modal-content
+          form.form-horizontal
+            .modal-header
+              button.close(data-dismiss="modal", aria-label="Close")
+                span(aria-hidden="true") &times;
+              h4.modal-title Sign Tx
+            .modal-body
+              .form-group
+                label.col-sm-4.control-label(for="pkey") Private Key or Seed
+                .col-sm-8
+                  input.form-control(type="password", name="pkey")
+            .modal-footer
+              button.btn.btn-default(data-dismiss="modal") Close
+              button.btn.btn-primary(data-name="send", type="submit") Send
+
+    script(src="lib/jquery/dist/jquery.min.js")
+    script(src="lib/bootstrap/dist/js/bootstrap.min.js")
+    script(src="dist/app.js")
