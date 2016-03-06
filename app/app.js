@@ -5,6 +5,7 @@ app.set('view engine', 'jade');
 app.set('views', 'app/views');
 app.use(express.static('app/public'));
 
+var port = process.env.PORT || 8080;
 
 app.get('/', function (req, res) {
   res.render('index', {
@@ -13,6 +14,6 @@ app.get('/', function (req, res) {
   });
 });
 
-app.listen(80, function () {
+app.listen(port, function () {
   console.log('App is listening on port 8080!');
 });
