@@ -5,8 +5,12 @@ app.set('view engine', 'jade');
 app.set('views', 'app/views');
 app.use(express.static('app/public'));
 
+
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('index', {
+    jsonRpc: process.env.WALLET_JSON_RPC,
+    nameReg: process.env.WALLET_NAME_REG
+  });
 });
 
 app.listen(8080, function () {

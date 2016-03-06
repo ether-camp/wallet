@@ -8,11 +8,18 @@ var TopUpDialog = require('./ui/top-up-dialog');
 var PkeyDialog = require('./ui/pkey-dialog');
 var WalletWidget = require('./ui/wallet');
 
-var sandboxId = 'a657b8f53b';
-var url = 'http://' + window.location.hostname + ':8555/sandbox/' + sandboxId;
+
+var url;
+if (window.JSON_RPC) url = window.JSON_RPC;
+else {
+  var sandboxId = 'a657b8f53b';
+  url = 'http://' + window.location.hostname + ':8555/sandbox/' + sandboxId;
+}
+
 //var url = 'http://peer-1.ether.camp:8082';
 //var nameRegAddress = '0x084f6a99003dae6d3906664fdbf43dd09930d0e3'; // livenet
 var nameRegAddress = '0x0860a8008298322a142c09b528207acb5ab7effc'; // testnet
+if (window.NAME_REG) nameRegAddress = window.NAME_REG;
 
 var app = new EventEmitter();
 app.web3 = new Web3(new Web3.providers.HttpProvider(url));
