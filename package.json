@@ -15,9 +15,7 @@
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "lodash": "^4.4.0",
-    "web3": "^0.15.2"
-  },
-  "devDependencies": {
+    "web3": "^0.15.2",
     "browserify": "^13.0.0",
     "ethereum-sandbox-client": "git+https://github.com/ether-camp/ethereum-sandbox-client.git",
     "gulp": "^3.9.1",
