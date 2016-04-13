@@ -12,8 +12,8 @@ var WalletWidget = require('./ui/wallet');
 var url;
 if (window.JSON_RPC) url = window.JSON_RPC;
 else {
-  var sandboxId = 'a657b8f53b';
-  url = 'http://' + window.location.hostname + ':8555/sandbox/' + sandboxId;
+  var sandboxId = '7425ef1b3f';
+  url = '//' + window.location.hostname + ':8555/sandbox/' + sandboxId;
 }
 
 //var url = 'http://peer-1.ether.camp:8082';
