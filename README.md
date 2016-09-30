@@ -1,18 +1,17 @@
-# Multisignature Wallet on Ethereum
+# Multisignature Wallet on Ethereum [![Build Status](https://travis-ci.org/ether-camp/wallet.svg?branch=master)](https://travis-ci.org/ether-camp/wallet)
 
-That's a sample application to demonstrate working with Ethereum from js using web3.js.
+That's a sample application to demonstrate working with Ethereum from js using web3.js and ethereumjs.
 
 ```
 $ git clone https://github.com/ether-camp/wallet
 ```
 
-Check app/public/src/app.js to set web3 JSON RPC url.
+The app gets JSON RPC url from the environment variable `WALLET_JSON_RPC` and NameReg address from `WALLET_NAME_REG`.
 
 Building:
 ```
 $ npm install bower -g
 $ npm install
-$ bower install --allow-root
 $ gulp
 ```
 
