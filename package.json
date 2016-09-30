@@ -23,8 +23,5 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
     "web3": "0.17.0-alpha"
-  },
-  "engines": {
-    "node": "0.12.7"
   }
 }
