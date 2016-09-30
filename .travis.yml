@@ -1,7 +1,12 @@
 sudo: required
 dist: trusty
-
 language: node_js
-
 node_js:
-  - "4"
+- '4'
+deploy:
+  provider: heroku
+  api_key:
+    secure: CkzmRMWLyAchASeTkuNMVYzMZDBR1fQcvc6HAFHEG9NJXG+I4EJT1fv688hrdwpwjJqtNtGgIkmtxUcoAb1MAo/RqMJ0aJNvmdPpRnuTCAmrnL7aIs6E9f2JYSswPJi4ZPRhzoiTtBSYYHrD+Ii8DX3FkP4PSpYjMgdBWBvdLw/ol/dSoolwC4G39hTX3E3oRVMeyvlYScr3z/7/IsWQmRU4CiFkBFi1DMyJlloPvn5OxAnCov5Mdspu1u6Vj1TBL9OllkJtrnTXfxNdPuO5A4nUpSPhHJWtqANd0sX7wn8RmBtIg9vcNDawNrJJc3uRekc/uPe3DicsdsTEWECowLMcdkXymxtPa4ZW4plL/U1epk8zRAgipO8OjMsHQU0Bqmf5rlGwcSBq6tPtfnZZvdtChcAK7NrODi2Xz0J2TLeeWQ8sy6OjCelW5hbgG/R4G87EGJBcJBjyWz5Dy02EKIRF2iT/JtAS0bRB+jXguYMpq+D71b56t3XLqA0xw5zUvinYXu1b9GKudnxmGRDiRQ92iVQDwhGSdWe2RQLCT08BfH7Tvk/Lr20VUtQGnz1r7rZU6wbl+EXK3f2t4UrvzroxjK9iH0J52nEfpBvlN+t1a+M+Vw4QTHTDH3j3JcGjBmQAU12ArheOV76AKW7IPaYIFMv38uUxUf+59meBOUY=
+  app: wallet
+  on:
+    repo: ether-camp/wallet
