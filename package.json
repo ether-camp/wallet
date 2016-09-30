@@ -1,29 +1,28 @@
 {
   "name": "wallet",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "app/app.js",
   "scripts": {
     "start": "node app/app.js",
-    "postinstall": "bower install && gulp"
+    "postinstall": "bower install && gulp",
+    "test": "mocha test/**/*.js"
   },
   "dependencies": {
     "async": "^1.5.2",
     "bower": "^1.7.7",
+    "browserify": "^13.0.0",
     "crypto-js": "^3.1.6",
+    "ethereum-sandbox-workbench": "^1.0.0-beta8",
     "ethereumjs-tx": "^1.0.0",
     "ethereumjs-util": "^4.0.0",
     "express": "^4.13.4",
+    "gulp": "^3.9.1",
     "jade": "^1.11.0",
     "lodash": "^4.4.0",
-    "web3": "^0.15.2",
-    "browserify": "^13.0.0",
-    "ethereum-sandbox-client": "git+https://github.com/ether-camp/ethereum-sandbox-client.git",
-    "gulp": "^3.9.1",
-    "gulp-mocha": "^2.2.0",
     "mocha": "^2.4.5",
-    "solidity-compiler": "git+https://github.com/ether-camp/solidity-compiler.git",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "web3": "0.17.0-alpha"
   },
   "engines": {
     "node": "0.12.7"

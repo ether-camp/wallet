@@ -16,4 +16,6 @@ app.get('/', function (req, res) {
 
 app.listen(port, function () {
   console.log('App is listening on port 8080!');
+  console.log('JSON RPC: ' + process.env.WALLET_JSON_RPC);
+  console.log('NameReg: ' + process.env.WALLET_NAME_REG);
 });

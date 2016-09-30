@@ -1,6 +1,4 @@
-contract abstract {}
-
-contract owned is abstract {
+contract owned {
   address owner;
   function owned() {
     owner = msg.sender;
@@ -10,7 +8,7 @@ contract owned is abstract {
   }
 }
 
-contract mortal is abstract, owned {
+contract mortal is owned {
   function kill() {
     if (msg.sender == owner) suicide(owner);
   }
